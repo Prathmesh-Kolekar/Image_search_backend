@@ -43,7 +43,7 @@ def get_images_from_jina(target_url, num_images=5):
         if "images" in json_data['data']:
             # print(json_data['data']["images"])
             for item in json_data['data']["images"].values():
-                if 'iso.500px.com' in item and 'logo' not in item:
+                if ('iso.500px.com' in item and 'logo' not in item) or ('instagram.com' in item and 'logo' not in item):
                     images.append(item)
                 if len(images) >= num_images:
                     break
@@ -113,6 +113,9 @@ def search_images():
 
     # Fetch from 500px
     image_data["500px"] = get_images_from_jina(f"https://iso.500px.com/tag/{hashtag}/", num_images)
+
+    # Fetch from Instagram
+    image_data["instagram"] = get_images_from_jina(f"https://www.instagram.com/{hashtag}/", num_images)
 
     # Fetch from Flickr API
     image_data["flickr"] = get_flickr_images(hashtag, num_images)
